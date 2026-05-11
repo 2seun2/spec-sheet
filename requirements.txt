@@ -1,0 +1,4 @@
+streamlit
+pandas
+openai  # 실시간 AI 검색 기능을 넣을 경우 필요
+requests # API 호출용
