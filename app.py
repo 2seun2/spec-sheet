@@ -19,14 +19,30 @@ st.caption("제조사와 인치를 선택하면 AI가 최신 모델을 추천합
 def get_model_list(brand, inch, api_key):
     try:
         genai.configure(api_key=api_key)
-        # 모델 경로를 models/ 포함으로 변경하여 호환성 확보
-        model = genai.GenerativeModel('models/gemini-1.5-flash') 
-        prompt = f"{brand}의 {inch}인치 TV 모델명(2025-2026) 딱 3개만 콤마(,)로 구분해서 알려줘. 다른 설명은 생략해."
-        response = model.generate_content(prompt)
+        
+        # 모델명을 'models/gemini-1.5-flash'로 명확히 지정 (v1beta 이슈 해결)
+        model = genai.GenerativeModel('models/gemini-1.5-flash')
+        
+        prompt = f"{brand}의 {inch}인치 최신 TV 모델명(2025-2026) 딱 3개만 콤마(,)로 구분해서 알려줘. 다른 설명은 생략해."
+        
+        # 안전한 호출을 위해 generation_config 추가
+        response = model.generate_content(
+            prompt,
+            generation_config=genai.types.GenerationConfig(
+                candidate_count=1,
+                max_output_tokens=100,
+                temperature=0.7
+            )
+        )
+        
+        # 결과 텍스트 정제
         raw_text = response.text.replace('\n', '').replace('*', '').strip()
         return [m.strip() for m in raw_text.split(',')]
+        
     except Exception as e:
+        # 에러 발생 시 상세 메시지를 반환하여 디버깅 지원
         return [f"에러: {str(e)}"]
+
 
 
 # 4. 단계별 모델 선택 섹션
