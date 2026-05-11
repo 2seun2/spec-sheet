@@ -61,7 +61,7 @@ else:
             with st.spinner("Gemini가 상세 사양을 분석 중입니다..."):
                 try:
                     genai.configure(api_key=google_api_key)
-                    model = genai.GenerativeModel('gemini-1.5-flash')
+                    model = genai.GenerativeModel('gemini-1.5-flash-latest')
                     compare_prompt = f"""
                     다음 3개 TV 모델의 스펙 비교표를 만들어줘: {', '.join(selected_models)}
                     항목: 해상도, 패널유형, 최대밝기, 프로세서, 주사율, HDMI버전, 에너지효율.
