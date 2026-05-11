@@ -19,15 +19,15 @@ st.caption("제조사와 인치를 선택하면 AI가 최신 모델을 추천합
 def get_model_list(brand, inch, api_key):
     try:
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        # AI에게 엄격한 형식을 요구 (콤마로만 구분하도록)
+        # 모델 경로를 models/ 포함으로 변경하여 호환성 확보
+        model = genai.GenerativeModel('models/gemini-1.5-flash') 
         prompt = f"{brand}의 {inch}인치 TV 모델명(2025-2026) 딱 3개만 콤마(,)로 구분해서 알려줘. 다른 설명은 생략해."
         response = model.generate_content(prompt)
-        # 결과값에서 불필요한 기호 제거 및 리스트화
         raw_text = response.text.replace('\n', '').replace('*', '').strip()
         return [m.strip() for m in raw_text.split(',')]
     except Exception as e:
         return [f"에러: {str(e)}"]
+
 
 # 4. 단계별 모델 선택 섹션
 selected_models = []
