@@ -20,7 +20,7 @@ def get_model_list(brand, inch, api_key):
         
         # 모델명을 명확하게 지정 (404 models/gemini-1.5-flash 방지)
         # 만약 이래도 안되면 'gemini-1.5-flash'로 번갈아 테스트
-        model = genai.GenerativeModel(model_name='gemini-1.5-flash')
+        model = genai.GenerativeModel(model_name='models/gemini-1.5-flash')
         
         prompt = f"{brand}의 {inch}인치 TV 모델명(2025-2026) 딱 3개만 콤마(,)로 구분해서 알려줘. 다른 설명은 절대 하지마."
         
